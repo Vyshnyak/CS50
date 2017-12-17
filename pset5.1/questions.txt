@@ -1,0 +1,48 @@
+0.  It is the largest english word exist.
+1.  getrusage() returns resource usage measures
+2.  according to man page, there is 16 members in variable of type struct rusage 
+3.  We pass pointers instead of values because it doesn't take more memory when we pass pointers. When we pass these structs by value, we make a copy of these structs, thus we take more memory for these copies. 
+4.
+    For starters, in for loop, we use fgetc, so we can get the next character from text, one at a time on each iteration. 
+
+    Syntax of for loop:
+    
+    1) By using fgetc, we asign loop control variable by first character of the text. 
+    2) As a condition of loop we check whether character is not EOF. 
+    3) As an increment we likewise use fgetc to get the next character from the text and asign it to loop control variable.
+    
+    So we got the character from the text saved in loop control variable. 
+    Then, depends on what kind of character we have, we check our char with following conditions and do the appropriate actions:
+    
+    1) (ignore alphabetical strings too long to be words) If character we have is an alphabetic char or an apostrophe and not not the first character in word: 
+    
+       a) We append our character to an array called "word";
+       b) We increase the value of index variable by one;
+       c) If the value of index is bigger then the max length of word: 
+          - We traverse through all the characters we have left in a word until we get a nonalphabetical character or EOF; 
+          - When one of those conditions is true, we asign the value of index variable by 0 to prepare the array for a new word. 
+          
+    2) (ignore words with numbers) if character we have is a numeric character:
+        
+        a) We traverse through all the characters we have left in a word until we get a nonalphanumeric character or EOF.
+        b) When one of those conditions is true, we asign the value of index variable by 0 to prepare the array for a new word; 
+        
+    3) (we have found a whole word) if none of those previous conditions (character is not an alphabetic or numeric or apostrophe) are true and index > 0:
+        
+        a) We terminate current word by setting element of array at location "index" to /0 character;
+        b) We increase the value of word variable by 1;
+        c) We check word's spelling by using check function. And we also check how much time did spell-checking take;
+        d) We print message in case our word is misspeled;
+        e) We set index variable by 0, so we can start searching for new word.
+       
+5.  In that case we cant use fscanf function because in case the string in text consists of two words that are separated by characters like '-' it will be difficult to separate this string in two words.
+    In this case it is preferable to use fgetc function, so we can travers through these nonalphabetic characters until we reach the next word.
+6.  We declare parameters as contant to ensure that check and load functions do not change the values of the struct.
+7.  I used both, hash table and trie. 
+    1) hashtable is an array of pointers to linked list nodes, that are contain two elements: char array called word and the the pointer to the next node.
+    2) trie node contains two elements either. First element is a bool variable called is_word, which tells us whether current node is end of the word. 
+       Second element is an array of trie nodes size of 27 each of which represents an alphabetic letter.
+8.  aproximatelly 0.12 sec in total
+9.  1. i increased a size of an hash table (array); 2. I chose not to sort balls in buckets by putting every next node rigth before current one. 
+    3. I implemented size method in a load method by creating a global variable called size and increasing it each time after putting a new word in hash table. Then i returned a value of this varible in a size method.
+10. yes i do feel that my code has some bottleneck, but i am now at the level where i cant make my code better. I now that because the final speed of my solution is about 0.2-0.3 sec slower than staffs.
